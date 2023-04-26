@@ -18,10 +18,9 @@ const App: React.FC = () => {
   return (
     <div>
       <Router>
-        <Header isAuthenticated={isAuthenticated} onLogout={handleLogout} />
+        {isAuthenticated && <Header onLogout={handleLogout} />}
         <Routes>
-          <Route path="/" element={<h1>Home Page</h1>} />
-          <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />
+          {!isAuthenticated && <Route path="/login" element={<LoginPage onLogin={handleLogin} />} />}
           {isAuthenticated ? (
             <Route path="/tasks" element={<TasksPage />} />
           ) : (
