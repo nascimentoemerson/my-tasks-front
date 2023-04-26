@@ -1,23 +1,36 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { TaskList } from './components/taskList/TaskList';
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { TaskList } from './components/tasklist/TaskList';
+import TaskForm from './components/form/TaskForm';
+import { Task } from './interfaces/Task';
+
+const Container = styled.div`
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+`;
 
 const App: React.FC = () => {
-  const [tasks, setTasks] = useState([]);
+  const [tasks, setTasks] = useState<Task[]>([]);
 
-  useEffect(() => {
-    async function fetchData() {
-      const response = await axios.get('https://task-back.herokuapp.com/api/tasks');
-      setTasks(response.data);
-    }
-    fetchData();
-  }, []);
+  const handleAddTask = (task: Task) => {
+    setTasks([...tasks, task]);
+  };
+
+  const handleEditTask = (updatedTask: Task) => {
+    setTasks(tasks.map((task) => (task.id === updatedTask.id ? updatedTask : task)));
+  };
+
+  const handleDeleteTask = (taskId: string) => {
+    setTasks(tasks.filter((task) => task.id !== taskId));
+  };
 
   return (
-    <div>
-      <h1>Tarefas</h1>
-      <TaskList tasks={tasks} />
-    </div>
+    <Container>
+      <h1>Minhas Tarefas</h1>
+      <TaskForm onSubmit={handleAddTask} />
+      <TaskList tasks={tasks} onEditTask={handleEditTask} onDeleteTask={handleDeleteTask} />
+    </Container>
   );
 };
 
