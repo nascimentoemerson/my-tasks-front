@@ -1,44 +1,15 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import axios from 'axios';
 import { Task } from '../../interfaces/Task';
+import { Input, Label, Select, TextArea } from './styles';
+import { Form } from 'react-router-dom';
 
 interface Props {
     task?: Task | undefined;
     onSubmit: (task: Task) => void;
 }
 
-const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 20px;
-`;
 
-const Label = styled.label`
-  margin-bottom: 5px;
-`;
-
-const Input = styled.input`
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  margin-bottom: 10px;
-`;
-
-const TextArea = styled.textarea`
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  margin-bottom: 10px;
-  resize: vertical;
-`;
-
-const Select = styled.select`
-  padding: 10px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  margin-bottom: 10px;
-`;
 
 const TaskForm: React.FC<Props> = ({ task, onSubmit }) => {
     const [formValues, setFormValues] = useState<Task>(

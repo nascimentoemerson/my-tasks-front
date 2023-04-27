@@ -1,36 +1,41 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
-import TaskForm from './components/form/TaskForm';
 import TaskList from './components/tasklist/TaskList';
 import { Task } from './interfaces/Task';
 
-const Container = styled.div`
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-`;
-
 const App: React.FC = () => {
-  const [tasks, setTasks] = useState<Task[]>([]);
-
-  const handleAddTask = (task: Task) => {
-    setTasks([...tasks, task]);
-  };
+  const [tasks, setTasks] = useState<Task[]>([
+    {
+      id: '1',
+      title: 'Fazer compras',
+      description: 'Comprar leite, pão, queijo e presunto',
+    },
+    {
+      id: '2',
+      title: 'Estudar programação',
+      description: 'Estudar React, Node.js e TypeScript',
+    },
+    {
+      id: '3',
+      title: 'Fazer exercícios',
+      description: 'Correr no parque e fazer musculação',
+    },
+  ]);
 
   const handleEditTask = (updatedTask: Task) => {
-    setTasks(tasks.map((task) => (task.id === updatedTask.id ? updatedTask : task)));
+    setTasks((prevTasks) =>
+      prevTasks.map((task) => (task.id === updatedTask.id ? updatedTask : task))
+    );
   };
 
   const handleDeleteTask = (taskId: string) => {
-    setTasks(tasks.filter((task) => task.id !== taskId));
+    setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
   };
 
   return (
-    <Container>
-      <h1>Minhas Tarefas</h1>
-      <TaskForm onSubmit={handleAddTask} />
+    <div>
+      <h1>Lista de Tarefas</h1>
       <TaskList tasks={tasks} onEditTask={handleEditTask} onDeleteTask={handleDeleteTask} />
-    </Container>
+    </div>
   );
 };
 

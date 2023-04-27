@@ -1,6 +1,16 @@
-import React from 'react';
-import { StyledTaskList, TaskItem, TaskTitle, TaskDescription, TaskActions, TaskButton } from './styles';
-import { Task } from '../../interfaces/Task';
+import React from "react";
+import { Task } from "../../interfaces/Task";
+import {
+    StyledTaskList,
+    TaskItem,
+    TaskInfo,
+    TaskTitle,
+    TaskDescription,
+    TaskActions,
+    TaskButton,
+    EditIcon,
+    DeleteIcon,
+} from "./styles";
 
 interface Props {
     tasks: Task[];
@@ -13,11 +23,17 @@ const TaskList: React.FC<Props> = ({ tasks, onEditTask, onDeleteTask }) => {
         <StyledTaskList>
             {tasks.map((task) => (
                 <TaskItem key={task.id}>
-                    <TaskTitle>{task.title}</TaskTitle>
-                    <TaskDescription>{task.description}</TaskDescription>
+                    <TaskInfo>
+                        <TaskTitle>{task.title}</TaskTitle>
+                        <TaskDescription>{task.description}</TaskDescription>
+                    </TaskInfo>
                     <TaskActions>
-                        <TaskButton onClick={() => onEditTask(task)}>Editar</TaskButton>
+                        <TaskButton onClick={() => onEditTask(task)}>
+                            <EditIcon />
+                            Editar
+                        </TaskButton>
                         <TaskButton danger onClick={() => onDeleteTask(task.id)}>
+                            <DeleteIcon />
                             Excluir
                         </TaskButton>
                     </TaskActions>
