@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import TaskList from './components/tasklist/TaskList';
+import { TaskListProps } from './interfaces/Props';
 import { Task } from './interfaces/Task';
 
 const App: React.FC = () => {
@@ -31,10 +32,16 @@ const App: React.FC = () => {
     setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
   };
 
+  const taskListProps: TaskListProps = {
+    tasks: tasks,
+    onEditTask: handleEditTask,
+    onDeleteTask: handleDeleteTask,
+  };
+
   return (
     <div>
       <h1>Lista de Tarefas</h1>
-      <TaskList tasks={tasks} onEditTask={handleEditTask} onDeleteTask={handleDeleteTask} />
+      <TaskList {...taskListProps} />
     </div>
   );
 };

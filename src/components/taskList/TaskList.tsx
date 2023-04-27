@@ -1,44 +1,57 @@
-import React from "react";
+import React, { useState } from "react";
+import TaskListItem from "../task-item/TaskListItem";
+import TaskActions from "../task-actions/TaskActions";
 import { Task } from "../../interfaces/Task";
-import {
-    StyledTaskList,
-    TaskItem,
-    TaskInfo,
-    TaskTitle,
-    TaskDescription,
-    TaskActions,
-    TaskButton,
-    EditIcon,
-    DeleteIcon,
-} from "./styles";
+import { StyledTaskList } from "./styles";
 
-interface Props {
-    tasks: Task[];
-    onEditTask: (updatedTask: Task) => void;
-    onDeleteTask: (taskId: string) => void;
-}
 
-const TaskList: React.FC<Props> = ({ tasks, onEditTask, onDeleteTask }) => {
+
+const TaskList: React.FC = () => {
+    const [tasks, setTasks] = useState<Task[]>([
+        {
+            id: "1",
+            title: "Fazer compras",
+            description: "Comprar leite, pão, queijo e presunto",
+        },
+        {
+            id: "2",
+            title: "Estudar programação",
+            description: "Estudar React, Node.js e TypeScript",
+        },
+        {
+            id: "3",
+            title: "Fazer exercícios",
+            description: "Correr no parque e fazer musculação",
+        },
+    ]);
+
+    const handleEditTask = (updatedTask: Task) => {
+        setTasks((prevTasks) =>
+            prevTasks.map((task) => (task.id === updatedTask.id ? updatedTask : task))
+        );
+    };
+
+    const handleDeleteTask = (taskId: string) => {
+        setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
+    };
+
+    const handleAddTask = () => {
+        // Implementar adição de nova tarefa
+    };
+
     return (
         <StyledTaskList>
-            {tasks.map((task) => (
-                <TaskItem key={task.id}>
-                    <TaskInfo>
-                        <TaskTitle>{task.title}</TaskTitle>
-                        <TaskDescription>{task.description}</TaskDescription>
-                    </TaskInfo>
-                    <TaskActions>
-                        <TaskButton onClick={() => onEditTask(task)}>
-                            <EditIcon />
-                            Editar
-                        </TaskButton>
-                        <TaskButton danger onClick={() => onDeleteTask(task.id)}>
-                            <DeleteIcon />
-                            Excluir
-                        </TaskButton>
-                    </TaskActions>
-                </TaskItem>
-            ))}
+            <TaskActions onAddTask={handleAddTask} />
+            <ul>
+                {tasks.map((task) => (
+                    <TaskListItem
+                        key={task.id}
+                        task={task}
+                        onEditTask={handleEditTask}
+                        onDeleteTask={handleDeleteTask}
+                    />
+                ))}
+            </ul>
         </StyledTaskList>
     );
 };
