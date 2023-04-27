@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { TaskList } from './components/tasklist/TaskList';
 import TaskForm from './components/form/TaskForm';
+import TaskList from './components/tasklist/TaskList';
 import { Task } from './interfaces/Task';
 
 const Container = styled.div`
